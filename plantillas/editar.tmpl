@@ -1,0 +1,57 @@
+{{define "editar"}}
+{{ template "cabecera"}}
+
+<div class="card">
+    <div class="card-header">Usuarios</div>
+    <div class="card-body">
+        <form action="/actualizar" method="post">
+            <div class="mb-3">
+                <label for="" class="form-label">Id</label>
+                <input
+                    type="text"
+                    class="form-control"
+                    value="{{.Id}}"
+                    name="id"
+                    id="id"
+                    aria-describedby="helpId"
+                    placeholder="Nombre"
+                    readonly 
+                />
+                
+            </div>
+            <div class="mb-3">
+            <label for="" class="form-label">Nombre</label>
+            <input
+                type="text"
+                class="form-control"
+                value="{{.Nombre}}"
+                name="nombre"
+                id="nombre"
+                aria-describedby="helpId"
+                placeholder="Nombre"
+            />
+            
+        </div>
+        <div class="mb-3">
+            <label for="" class="form-label">Email</label>
+            <input
+                type="text"
+                value="{{.Email}}"
+                class="form-control"
+                name="email"
+                id="email"
+                aria-describedby="helpId"
+                placeholder="Email"
+            />
+
+        </div>
+        <button class="btn btn-primary" type="submit">Guardar</button>
+        <button class="btn  btn-danger mx-1" href="/">Cancelar</button>
+
+        
+        </form>
+    </div>
+
+</div>
+{{ template "pie"}}
+{{end}}
