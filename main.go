@@ -31,22 +31,22 @@ func main() {
 
 func Actualizar(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "POST" {
-		id_usuario := r.FormValue("id")
+		id_usuario := r.FormValue("id_usuario")
 		nombre := r.FormValue("nombre")
 		email := r.FormValue("email")
 
 		conexion := ConexionDB()
 
-		actualizar, err := conexion.Prepare(" UPDATE usuarios SET nombre=?, email=? WHERE=id_usuario=?")
+		actualizar, err := conexion.Prepare("UPDATE usuarios SET nombre=?, email=? WHERE id_usuario=?")
 		if err != nil {
 			panic(err.Error())
 		}
 		actualizar.Exec(nombre, email, id_usuario)
-		http.Redirect(w, r, "/", r.Response.StatusCode)
+		http.Redirect(w, r, "/", 301)
 	}
 }
 func Editar(w http.ResponseWriter, r *http.Request) {
-	id_usuario := r.URL.Query().Get("id_usuario")
+	id_usuario := r.URL.Query().Get("Id")
 	conexion := ConexionDB()
 	usuario := Usuario{}
 
@@ -56,28 +56,30 @@ func Editar(w http.ResponseWriter, r *http.Request) {
 	}
 	for registro.Next() {
 		var nombre, email string
+		var id_usuario int
 		err = registro.Scan(&id_usuario, &nombre, &email)
 		if err != nil {
 			panic(err.Error())
 		}
+		usuario.Id_usuario = id_usuario
 		usuario.Nombre = nombre
 		usuario.Email = email
 	}
-	plantillas.ExecuteTemplate(w, "/editar", usuario)
+	plantillas.ExecuteTemplate(w, "editar", usuario)
 
 }
 
 func Eliminar(w http.ResponseWriter, r *http.Request) {
-	id_usuario := r.URL.Query().Get("id_usuario")
+	id_usuario := r.URL.Query().Get("Id")
 
 	conexion := ConexionDB()
 
-	eliminar, err := conexion.Prepare("DELETE FROM usuarios WHERE id_usuario=?)")
+	eliminar, err := conexion.Prepare("DELETE FROM usuarios WHERE id_usuario=?")
 	if err != nil {
 		panic(err.Error())
 	}
 	eliminar.Exec(id_usuario)
-	http.Redirect(w, r, "/", r.Response.StatusCode)
+	http.Redirect(w, r, "/", 301)
 }
 
 func Insertar(w http.ResponseWriter, r *http.Request) {
@@ -92,19 +94,20 @@ func Insertar(w http.ResponseWriter, r *http.Request) {
 			panic(err.Error())
 		}
 		registar.Exec(nombre, email)
-		http.Redirect(w, r, "/", r.Response.StatusCode)
+		http.Redirect(w, r, "/", 301)
 	}
 }
 
-func Inicio(w http.ResponseWriter, r *http.Request) {
+func Inicio(rw http.ResponseWriter, r *http.Request) {
 	conexion := ConexionDB()
-	usuario := Usuario{}
-	arregloUsuario := []Usuario{}
 
-	registar, err := conexion.Query(" SELECT * FROM usuarios")
+	registar, err := conexion.Query("SELECT * FROM usuarios")
 	if err != nil {
 		panic(err.Error())
 	}
+
+	usuario := Usuario{}
+	arregloUsuario := []Usuario{}
 	for registar.Next() {
 		var id_usuario int
 		var nombre, email string
@@ -112,13 +115,14 @@ func Inicio(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			panic(err.Error())
 		}
+		usuario.Id_usuario = id_usuario
 		usuario.Nombre = nombre
 		usuario.Email = email
 		arregloUsuario = append(arregloUsuario, usuario)
 
 	}
 	println(arregloUsuario)
-	plantillas.ExecuteTemplate(w, "inicio", arregloUsuario)
+	plantillas.ExecuteTemplate(rw, "inicio", arregloUsuario)
 }
 
 func PlantillaCrear(w http.ResponseWriter, r *http.Request) {

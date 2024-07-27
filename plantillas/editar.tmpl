@@ -6,16 +6,17 @@
     <div class="card-body">
         <form action="/actualizar" method="post">
             <div class="mb-3">
-                <label for="" class="form-label">Id</label>
+                <label hidden for="" class="form-label">Id</label>
                 <input
                     type="text"
                     class="form-control"
                     value="{{.Id_usuario}}"
-                    name="id"
+                    name="id_usuario"
                     id="id_usuario"
                     aria-describedby="helpId"
                     placeholder="Nombre"
                     readonly 
+                    hidden
                 />
                 
             </div>

@@ -18,11 +18,13 @@
                 <tbody>
             {{range .}}    
                     <tr class="">
-                        <td scope="row">{{.Id}}</td>
+                        <td scope="row">{{.Id_usuario}}</td>
                         <td>{{.Nombre}}</td>
                         <td>{{.Email}}</td>
-                        <td><div class="d-flex flex-row" href="/editar?Id={{.Id_usuario}}" ><button class="btn btn-primary mx-1">Editar {{.Id_usuario}}</button>
-                        <button href="/eliminar?Id={{.Id_usuario}}" class="btn  btn-danger mx-1">Eliminar {{.Id_usuario}}</button></div></td>
+                        <td><div class="d-flex flex-row" >
+                            <a href="/editar?Id={{.Id_usuario}}" ><button class="btn btn-primary mx-1">Editar</button></a>
+                            <a href="/eliminar?Id={{.Id_usuario}}"><button href="" class="btn  btn-danger mx-1">Eliminar</button></a>
+                        </div></td>
                     </tr>
             {{end}}  
                 </tbody>
