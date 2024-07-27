@@ -10,9 +10,9 @@ import (
 )
 
 type Usuario struct {
-	Id     int
-	Nombre string
-	Email  string
+	Id_usuario int
+	Nombre     string
+	Email      string
 }
 
 var plantillas = template.Must(template.ParseGlob("plantillas/*"))
