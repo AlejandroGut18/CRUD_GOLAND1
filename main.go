@@ -118,7 +118,7 @@ func Inicio(w http.ResponseWriter, r *http.Request) {
 
 	}
 	println(arregloUsuario)
-	plantillas.ExecuteTemplate(w, "/inicio", arregloUsuario)
+	plantillas.ExecuteTemplate(w, "inicio", arregloUsuario)
 }
 
 func PlantillaCrear(w http.ResponseWriter, r *http.Request) {
