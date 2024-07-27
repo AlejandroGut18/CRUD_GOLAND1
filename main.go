@@ -31,32 +31,32 @@ func main() {
 
 func Actualizar(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "POST" {
-		id := r.FormValue("id")
+		id_usuario := r.FormValue("id")
 		nombre := r.FormValue("nombre")
 		email := r.FormValue("email")
 
 		conexion := ConexionDB()
 
-		actualizar, err := conexion.Prepare(" UPDATE usuarios SET nombre=?, email=? WHERE=id=?")
+		actualizar, err := conexion.Prepare(" UPDATE usuarios SET nombre=?, email=? WHERE=id_usuario=?")
 		if err != nil {
 			panic(err.Error())
 		}
-		actualizar.Exec(nombre, email, id)
+		actualizar.Exec(nombre, email, id_usuario)
 		http.Redirect(w, r, "/", r.Response.StatusCode)
 	}
 }
 func Editar(w http.ResponseWriter, r *http.Request) {
-	id := r.URL.Query().Get("id_usuario")
+	id_usuario := r.URL.Query().Get("id_usuario")
 	conexion := ConexionDB()
 	usuario := Usuario{}
 
-	registro, err := conexion.Query(" SELECT * FROM usuarios WHERE id_usuario=?", id)
+	registro, err := conexion.Query(" SELECT * FROM usuarios WHERE id_usuario=?", id_usuario)
 	if err != nil {
 		panic(err.Error())
 	}
 	for registro.Next() {
 		var nombre, email string
-		err = registro.Scan(&id, &nombre, &email)
+		err = registro.Scan(&id_usuario, &nombre, &email)
 		if err != nil {
 			panic(err.Error())
 		}
@@ -68,7 +68,7 @@ func Editar(w http.ResponseWriter, r *http.Request) {
 }
 
 func Eliminar(w http.ResponseWriter, r *http.Request) {
-	id := r.URL.Query().Get("id_usuario")
+	id_usuario := r.URL.Query().Get("id_usuario")
 
 	conexion := ConexionDB()
 
@@ -76,7 +76,7 @@ func Eliminar(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err.Error())
 	}
-	eliminar.Exec(id)
+	eliminar.Exec(id_usuario)
 	http.Redirect(w, r, "/", r.Response.StatusCode)
 }
 
@@ -106,9 +106,9 @@ func Inicio(w http.ResponseWriter, r *http.Request) {
 		panic(err.Error())
 	}
 	for registar.Next() {
-		var id int
+		var id_usuario int
 		var nombre, email string
-		err = registar.Scan(&id, &nombre, &email)
+		err = registar.Scan(&id_usuario, &nombre, &email)
 		if err != nil {
 			panic(err.Error())
 		}
